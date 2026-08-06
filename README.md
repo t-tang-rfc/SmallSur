@@ -43,8 +43,10 @@ git clone https://github.com/jothi-prasath/SmallSur
 cd SmallSur
 ```
 ```bash
-chmod +x install-debian.sh && sudo ./install-debian.sh
-``` 
+chmod +x install-debian.sh && ./install-debian.sh
+```
+Note: run it as your normal user (not with `sudo`) from a terminal inside your
+Xfce session — the script uses `sudo` internally only to install packages.
 
 ### For Arch/Manjaro
 ```bash
