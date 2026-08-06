@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SmallSur override for vala-panel-appmenu's desktop-menus.ui.
+
+     The appmenu (global menu) panel plugin shows its own built-in menu when
+     the desktop is focused: a "Desktop" menu plus Files/Documents/Music/
+     Pictures/Video menus. That menubar is compiled into the plugin as a
+     GResource and has no configuration switch, so SmallSur overrides the
+     resource via G_RESOURCE_OVERLAYS (see install-debian.sh) with this copy,
+     which keeps the "Desktop" menu but removes the folder menus.
+     (The "Desktop" label itself is hardcoded in the plugin's code and cannot
+     be removed without rebuilding it.) -->
+<interface domain="vala-panel-appmenu">
+  <menu id="appmenu-desktop">
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">_Desktop Settings</attribute>
+        <attribute name="action">menu.desktop-settings</attribute>
+      </item>
+      <item>
+        <attribute name="label" translatable="yes">_System Settings</attribute>
+        <attribute name="action">menu.control-center</attribute>
+      </item>
+    </section>
+  </menu>
+  <menu id="menubar"/>
+  <menu id="files"/>
+  <menu id="docs"/>
+  <menu id="music"/>
+  <menu id="picts"/>
+  <menu id="video"/>
+  <menu id="appmenu-stub">
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">_New</attribute>
+        <attribute name="action">conf.new</attribute>
+        <attribute name="hidden-when">action-missing</attribute>
+      </item>
+    </section>
+    <section id="desktop-actions"></section>
+    <section id="unity-actions"></section>
+    <section>
+      <item>
+        <attribute name="label" translatable="yes">_Quit</attribute>
+        <attribute name="action">conf.quit</attribute>
+        <attribute name="hidden-when">action-missing</attribute>
+      </item>
+    </section>
+  </menu>
+</interface>
