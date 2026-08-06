@@ -33,6 +33,8 @@ Small Sur is a theme that brings the visual aesthetics of macOS Big Sur to XFCE 
 Before installing Small Sur, ensure that you have the following requirements are met:
 - XFCE desktop environment 
 - Install plank, ulancher, vala-panel-appmenu manually
+  (on Debian/Ubuntu, `install-debian.sh` installs plank and the appmenu
+  plugin for you and starts the dock automatically on login)
 
 ## Installation
 ### For Debian/Ubuntu

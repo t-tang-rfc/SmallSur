@@ -71,6 +71,28 @@ mkdir -p ~/.local/share/plank/themes/
 cp -rp "$workdir/WhiteSur-gtk-theme/src/other/plank/"* ~/.local/share/plank/themes/
 cp -rp plank/mcOS-BS-iMacM1-Black/ ~/.local/share/plank/themes/
 
+#Plank dock: pin Firefox and Terminal as the default launchers
+mkdir -p ~/.config/plank/dock1/launchers/
+cat > ~/.config/plank/dock1/launchers/firefox.dockitem <<EOF
+[PlankDockItemPreferences]
+Launcher=file:///usr/share/applications/firefox.desktop
+EOF
+cat > ~/.config/plank/dock1/launchers/xfce4-terminal.dockitem <<EOF
+[PlankDockItemPreferences]
+Launcher=file:///usr/share/applications/xfce4-terminal.desktop
+EOF
+
+#Start the dock automatically on login
+mkdir -p ~/.config/autostart/
+cat > ~/.config/autostart/plank.desktop <<EOF
+[Desktop Entry]
+Type=Application
+Name=Plank
+Comment=macOS-like dock
+Exec=plank
+OnlyShowIn=XFCE;
+EOF
+
 # Everything below changes the current desktop session, so it needs a running
 # Xfce session (xfconfd). Skip it gracefully when run outside one.
 if ! xfconf-query -c xsettings -l >/dev/null 2>&1; then
@@ -113,6 +135,17 @@ done
 # Restart the panel with the new layout
 nohup xfce4-panel >/dev/null 2>&1 &
 
+#Plank dock settings: Big Sur theme, auto-hide (reveals when the cursor
+#reaches the screen edge), only the pinned launchers above
+plank_dock="net.launchpad.plank.dock.settings:/net/launchpad/plank/docks/dock1/"
+gsettings set "$plank_dock" theme "mcOS-BS-iMacM1-Black"
+gsettings set "$plank_dock" hide-mode "auto"
+gsettings set "$plank_dock" dock-items "['firefox.dockitem', 'xfce4-terminal.dockitem']"
+
+# (Re)start the dock
+pkill -x plank 2>/dev/null
+sleep 1
+nohup plank >/dev/null 2>&1 &
+
 echo "SmallSur installed"
-echo "Start the dock with 'plank' (add it to Session and Startup > Application"
-echo "Autostart to launch it on login) and reboot your system"
+echo "Reboot your system"

@@ -113,12 +113,25 @@ wallpaper, plank themes installed.
 6. Cleaned up: removed stale root-owned `WhiteSur-*` clones from the repo
    directory (left over from earlier sudo runs) and test helpers on the VM.
 
-## Not done / notes
+## Step 2 (2026-08-06, second commit): plank dock by default
 
-- **plank is installed but not autostarted** — matching the README, which
-  treats the dock as a manual step. Start it with `plank`, pick a theme in
-  `plank --preferences`, and add it to *Session and Startup → Application
-  Autostart* to have it on login.
+- `install-debian.sh` now configures and starts the dock:
+  - pins exactly two default launchers, Firefox and Xfce Terminal, via
+    `~/.config/plank/dock1/launchers/*.dockitem` + the `dock-items` gsetting
+  - `hide-mode = auto` (dock stays hidden, reveals when the cursor reaches
+    the bottom screen edge)
+  - theme `mcOS-BS-iMacM1-Black` (the one bundled in this repo)
+  - autostarts on login via `~/.config/autostart/plank.desktop`
+  - the script (re)starts plank at the end of the run
+- Verified on cassandra: gsettings show
+  `items=['firefox.dockitem', 'xfce4-terminal.dockitem'] hide='auto'`,
+  screenshots confirm the dock shows only Firefox + Terminal and is hidden
+  when `auto` is active.
+- Note for headless/ssh testing: plank refuses to start unless
+  `XDG_SESSION_TYPE=x11` and `XDG_CURRENT_DESKTOP=XFCE` are exported
+  (normal desktop logins always have these).
+
+## Not done / notes
 - `install-arch.sh` / `install-fedora.sh` still have the same class of bugs
   (sudo usage, cursor dir name, theme-name case, xfconfd overwrite); only the
   Debian script was in scope here.
