@@ -7,6 +7,7 @@
       <property name="length" type="uint" value="100"/>
       <property name="position-locked" type="bool" value="true"/>
       <property name="plugin-ids" type="array">
+        <value type="int" value="17"/>
         <value type="int" value="2"/>
         <value type="int" value="16"/>
         <value type="int" value="4"/>
@@ -39,6 +40,10 @@
     <property name="dark-mode" type="bool" value="false"/>
   </property>
   <property name="plugins" type="empty">
+    <property name="plugin-17" type="string" value="applicationsmenu">
+      <property name="button-icon" type="string" value="/usr/share/pixmaps/xubuntu-logo-menu.png"/>
+      <property name="show-button-title" type="bool" value="false"/>
+    </property>
     <property name="plugin-2" type="string" value="separator">
       <property name="style" type="uint" value="0"/>
       <property name="expand" type="bool" value="false"/>
