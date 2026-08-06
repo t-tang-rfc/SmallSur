@@ -29,13 +29,14 @@ mkdir -p "$workdir"
 # Packages:
 # - xfce4-appmenu-plugin + appmenu-gtk*-module: global menu in the top panel
 # - plank: the macOS-like dock
+# - fonts-ibm-plex: IBM Plex Mono, used as the system-wide font
 # - sassc, libglib2.0-dev-bin, libxml2-utils, dialog: needed by WhiteSur-gtk-theme's installer
 # Note: xfce4-notifyd, xfce4-power-manager and xfce4-pulseaudio-plugin already
 # ship with Xubuntu, and xfce4-statusnotifier-plugin no longer exists on
 # Ubuntu >= 21.04 (the systray is built into xfce4-panel), so none of them are
 # installed here.
 sudo apt-get install -y xfce4-appmenu-plugin appmenu-gtk2-module appmenu-gtk3-module \
-  plank sassc libglib2.0-dev-bin libxml2-utils dialog || {
+  plank fonts-ibm-plex sassc libglib2.0-dev-bin libxml2-utils dialog || {
   echo "ERROR: package installation failed"; exit 1;
 }
 
@@ -127,6 +128,10 @@ xfconf_set xfwm4 /general/theme "WhiteSur-Dark"
 xfconf_set xsettings /Net/IconThemeName "WhiteSur-dark"
 #Cursor theme
 xfconf_set xsettings /Gtk/CursorThemeName "WhiteSur-cursors"
+#Fonts: IBM Plex Mono everywhere (UI, monospace, window titles)
+xfconf_set xsettings /Gtk/FontName "IBM Plex Mono 10"
+xfconf_set xsettings /Gtk/MonospaceFontName "IBM Plex Mono 10"
+xfconf_set xfwm4 /general/title_font "IBM Plex Mono Bold 9"
 #Wallpaper (all monitors/workspaces)
 for prop in $(xfconf-query -c xfce4-desktop -l | grep last-image); do
   xfconf_set xfce4-desktop "$prop" "$HOME/Pictures/smallsur.png"

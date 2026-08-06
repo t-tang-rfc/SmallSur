@@ -131,6 +131,18 @@ wallpaper, plank themes installed.
   `XDG_SESSION_TYPE=x11` and `XDG_CURRENT_DESKTOP=XFCE` are exported
   (normal desktop logins always have these).
 
+## Step 3 (2026-08-06, third commit): IBM Plex Mono system-wide
+
+- Added `fonts-ibm-plex` (Ubuntu 24.04 package, v6.1.1) to the apt install
+  list.
+- The script now sets the font everywhere via xfconf:
+  - UI font: `/Gtk/FontName` = "IBM Plex Mono 10"
+  - Monospace font: `/Gtk/MonospaceFontName` = "IBM Plex Mono 10"
+  - Window titles: xfwm4 `/general/title_font` = "IBM Plex Mono Bold 9"
+- Verified on cassandra with `xfconf-query` and screenshots: panel, global
+  menu, desktop labels, window titlebar and terminal all render in
+  IBM Plex Mono.
+
 ## Not done / notes
 - `install-arch.sh` / `install-fedora.sh` still have the same class of bugs
   (sudo usage, cursor dir name, theme-name case, xfconfd overwrite); only the
