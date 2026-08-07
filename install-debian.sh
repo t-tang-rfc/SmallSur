@@ -35,10 +35,21 @@ mkdir -p "$workdir"
 # ship with Xubuntu, and xfce4-statusnotifier-plugin no longer exists on
 # Ubuntu >= 21.04 (the systray is built into xfce4-panel), so none of them are
 # installed here.
-sudo apt-get install -y xfce4-appmenu-plugin appmenu-gtk2-module appmenu-gtk3-module \
-  plank fonts-ibm-plex sassc libglib2.0-dev-bin libxml2-utils dialog || {
-  echo "ERROR: package installation failed"; exit 1;
-}
+packages="xfce4-appmenu-plugin appmenu-gtk2-module appmenu-gtk3-module plank fonts-ibm-plex sassc libglib2.0-dev-bin libxml2-utils dialog"
+missing=""
+for pkg in $packages; do
+  case "$(dpkg-query -W -f='${Status}' "$pkg" 2>/dev/null)" in
+    *"install ok installed"*) ;;
+    *) missing="$missing $pkg" ;;
+  esac
+done
+# Only reach for sudo when something is actually missing, so re-runs (e.g. to
+# re-apply the sizing after a DPI change) don't ask for a password
+if [ -n "$missing" ]; then
+  sudo apt-get install -y $missing || {
+    echo "ERROR: package installation failed"; exit 1;
+  }
+fi
 
 #GTK theme
 [ -d "$workdir/WhiteSur-gtk-theme" ] || \
