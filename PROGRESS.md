@@ -156,28 +156,6 @@ wallpaper, plank themes installed.
 - Both verified on cassandra: screenshots show the logo at the top-left and
   the applications menu opening from it.
 
-## Step 5 (2026-08-06, sixth commit): remove the desktop's folder menus
-
-- The "Desktop, Files, Documents, Music, Pictures, Video" entries shown in
-  the menu bar when the desktop is focused come from the appmenu (global
-  menu) plugin itself: vala-panel-appmenu's `DesktopHelper` builds them from
-  a GtkBuilder file compiled into the plugin as the GResource
-  `/org/vala-panel/appmenu/desktop-menus.ui`. There is no setting to turn
-  them off (verified against the 0.7.6 source and the Debian package).
-- Fix: override that resource with GLib's documented `G_RESOURCE_OVERLAYS`
-  mechanism. The repo now ships `appmenu/desktop-menus.ui` (menubar emptied),
-  the installer copies it to `~/.local/share/smallsur/` and appends the
-  export line to `~/.xsessionrc` so it applies to the panel on every login.
-- The five folder menus are gone. The single bold "Desktop" word remains:
-  its label is hardcoded in the plugin's compiled code (confirmed by a
-  marker experiment — menu content follows the overridden resource, the
-  label does not). Removing it would require dropping the global-menu plugin
-  or rebuilding a patched one; per user's decision it stays, and its
-  dropdown still offers Desktop Settings / System Settings.
-- Dead ends tried and discarded: blacklisting xfdesktop in
-  org.appmenu.gtk-module (the menus don't come from xfdesktop's export) and
-  omitting the menu ids from the override (the label still renders).
-
 ## Not done / notes
 - `install-arch.sh` / `install-fedora.sh` still have the same class of bugs
   (sudo usage, cursor dir name, theme-name case, xfconfd overwrite); only the

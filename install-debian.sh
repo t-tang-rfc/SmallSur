@@ -115,20 +115,6 @@ if ! xfconf-query -c xsettings -l >/dev/null 2>&1; then
   exit 0
 fi
 
-#Global menu: hide the Files/Documents/Music/Pictures/Video menus the appmenu
-#plugin shows when the desktop is focused. The menu is compiled into the
-#plugin, so it is replaced through GLib's resource-overlay mechanism; the
-#override has to be exported before the panel starts, on every login (done
-#via ~/.xsessionrc, which Ubuntu's Xsession sources for all X sessions).
-mkdir -p ~/.local/share/smallsur/
-cp -p appmenu/desktop-menus.ui ~/.local/share/smallsur/
-overlay_line='export G_RESOURCE_OVERLAYS="/org/vala-panel/appmenu/desktop-menus.ui=$HOME/.local/share/smallsur/desktop-menus.ui${G_RESOURCE_OVERLAYS:+:$G_RESOURCE_OVERLAYS}"'
-if ! grep -qs "smallsur/desktop-menus.ui" ~/.xsessionrc; then
-  echo "$overlay_line" >> ~/.xsessionrc
-fi
-# also make it effective for the panel restarted below
-export G_RESOURCE_OVERLAYS="/org/vala-panel/appmenu/desktop-menus.ui=$HOME/.local/share/smallsur/desktop-menus.ui${G_RESOURCE_OVERLAYS:+:$G_RESOURCE_OVERLAYS}"
-
 #Xfce4-panel
 # The panel layout has to be copied while xfconfd is not running, otherwise
 # xfconfd overwrites it again with the old layout on logout
@@ -164,7 +150,6 @@ done
 
 # Restart the panel with the new layout
 nohup xfce4-panel >/dev/null 2>&1 &
-
 
 #Plank dock settings: Big Sur theme, auto-hide (reveals when the cursor
 #reaches the screen edge), only the pinned launchers above
