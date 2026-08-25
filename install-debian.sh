@@ -142,7 +142,7 @@ xfconf_set xsettings /Gtk/CursorThemeName "WhiteSur-cursors"
 #Fonts: IBM Plex Mono everywhere (UI, monospace, window titles)
 xfconf_set xsettings /Gtk/FontName "IBM Plex Mono 10"
 xfconf_set xsettings /Gtk/MonospaceFontName "IBM Plex Mono 10"
-xfconf_set xfwm4 /general/title_font "IBM Plex Mono Bold 9"
+xfconf_set xfwm4 /general/title_font "IBM Plex Mono Bold 10"
 #Wallpaper (all monitors/workspaces)
 for prop in $(xfconf-query -c xfce4-desktop -l | grep last-image); do
   xfconf_set xfce4-desktop "$prop" "$HOME/Pictures/smallsur.png"
