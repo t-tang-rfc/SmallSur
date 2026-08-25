@@ -155,7 +155,6 @@ nohup xfce4-panel >/dev/null 2>&1 &
 #reaches the screen edge), only the pinned launchers above
 plank_dock="net.launchpad.plank.dock.settings:/net/launchpad/plank/docks/dock1/"
 gsettings set "$plank_dock" theme "mcOS-BS-iMacM1-Black"
-gsettings set "$plank_dock" hide-mode "auto"
 gsettings set "$plank_dock" dock-items "['firefox.dockitem', 'xfce4-terminal.dockitem']"
 
 # (Re)start the dock
