@@ -143,19 +143,6 @@ wallpaper, plank themes installed.
   menu, desktop labels, window titlebar and terminal all render in
   IBM Plex Mono.
 
-## Step 4 (2026-08-06, fourth & fifth commits): logo menu + auto-hide menu bar
-
-- Added the built-in `applicationsmenu` plugin (plugin-17) at the far left
-  of the top panel, macOS style. It uses the Xubuntu logo
-  (`/usr/share/pixmaps/xubuntu-logo-menu.png`, referenced by absolute path so
-  it works regardless of the active icon theme) as a placeholder until the
-  project has its own logo; no button title is shown.
-- Set the top panel to auto-hide (`autohide-behavior = 2`, i.e. always hide;
-  it reveals when the cursor reaches the top screen edge, and stays visible
-  while one of its menus is open).
-- Both verified on cassandra: screenshots show the logo at the top-left and
-  the applications menu opening from it.
-
 ## Not done / notes
 - `install-arch.sh` / `install-fedora.sh` still have the same class of bugs
   (sudo usage, cursor dir name, theme-name case, xfconfd overwrite); only the
