@@ -33,11 +33,11 @@ Small Sur is a theme that brings the visual aesthetics of macOS Big Sur to XFCE 
 Before installing Small Sur, ensure that you have the following requirements are met:
 - XFCE desktop environment 
 - Install plank, ulancher, vala-panel-appmenu manually
-  (on Debian/Ubuntu, `install-debian.sh` installs plank and the appmenu
+  (on Xubuntu, `install-xubuntu.sh` installs plank and the appmenu
   plugin for you and starts the dock automatically on login)
 
 ## Installation
-### For Debian/Ubuntu
+### For Xubuntu
 ```bash
 git clone https://github.com/jothi-prasath/SmallSur
 ```
@@ -45,32 +45,11 @@ git clone https://github.com/jothi-prasath/SmallSur
 cd SmallSur
 ```
 ```bash
-chmod +x install-debian.sh && ./install-debian.sh
+./install-xubunxu.sh
 ```
-Note: run it as your normal user (not with `sudo`) from a terminal inside your
-Xfce session — the script uses `sudo` internally only to install packages.
-
-### For Arch/Manjaro
-```bash
-git clone https://github.com/jothi-prasath/SmallSur
-```
-```bash
-cd SmallSur
-```
-```bash
-chmod +x install-arch.sh && sudo ./install-arch.sh
-```
-### For Fedora
-```bash
-git clone https://github.com/jothi-prasath/SmallSur
-```
-```bash
-cd SmallSur
-```
-```bash
-chmod +x install-fedora.sh && sudo ./install-fedora.sh
-```
-Note: By default, the wallpapers are installed in the Pictures folder in your home directory.
+Note:
+- run it as your normal user (not with `sudo`) from a terminal inside your Xfce session --- the script uses `sudo` internally only to install packages.
+- By default, the wallpapers are installed in the Pictures folder in your home directory.
 
 ## Usage
 Once the SmallSur theme is installed, you can customize your XFCE desktop environment to match the style. Here are some recommended configurations:
@@ -87,6 +66,7 @@ Contributions are welcome! If you would like to contribute to the Small Sur proj
 - Add inline comments in the code where appropriate, especially for complex or non-obvious sections, to enhance code readability and maintainability.
 
 ## Credits 
+
 GTK Theme - https://github.com/vinceliuice/WhiteSur-gtk-theme
 
 Icon - https://github.com/vinceliuice/WhiteSur-icon-theme 
