@@ -80,18 +80,6 @@ Once the SmallSur theme is installed, you can customize your XFCE desktop enviro
 
 Feel free to explore and experiment with different configurations to personalize your desktop experience.
 
-## For Gnome Users
-If you are using the Gnome desktop environment, you can check out my other project, [Gnomintosh](https://github.com/jothi-prasath/gnomintosh). Gnomintosh provides a macOS-inspired theme specifically designed for Gnome. It includes themes, icons, and other customization elements to give your Gnome desktop a sleek and modern look.
-
-<p align="center"> <a href="https://github.com/jothi-prasath/gnomintosh">
-<img src="https://raw.githubusercontent.com/jothi-prasath/gnomintosh/master/images/1.png"/>
-<img src="https://raw.githubusercontent.com/jothi-prasath/gnomintosh/master/images/2.png"/>
-</a> </p>
-
-## Star
-
-![Stars](https://api.star-history.com/svg?repos=jothi-prasath/SmallSur&type=Date)
-
 ## Contribute
 
 Contributions are welcome! If you would like to contribute to the Small Sur project, please follow these steps:
