@@ -26,16 +26,23 @@ export TERM="${TERM:-xterm}"
 workdir="${XDG_CACHE_HOME:-$HOME/.cache}/smallsur-build"
 mkdir -p "$workdir"
 
+# --- Function definitions
+
+# @brief: Set an xfconf property, creating it as a string when it does not exist yet
+xfconf_set() {
+  xfconf-query -c "$1" -p "$2" -s "$3" 2>/dev/null || \
+    xfconf-query -c "$1" -p "$2" --create -t string -s "$3"
+}
+
 # Packages:
 # - xfce4-appmenu-plugin + appmenu-gtk*-module: global menu in the top panel
 # - plank: the macOS-like dock
-# - fonts-ibm-plex: IBM Plex Mono, used as the system-wide font
 # - sassc, libglib2.0-dev-bin, libxml2-utils, dialog: needed by WhiteSur-gtk-theme's installer
 # Note: xfce4-notifyd, xfce4-power-manager and xfce4-pulseaudio-plugin already
 # ship with Xubuntu, and xfce4-statusnotifier-plugin no longer exists on
 # Ubuntu >= 21.04 (the systray is built into xfce4-panel), so none of them are
 # installed here.
-packages="xfce4-appmenu-plugin appmenu-gtk2-module appmenu-gtk3-module plank fonts-ibm-plex sassc libglib2.0-dev-bin libxml2-utils dialog"
+packages="xfce4-appmenu-plugin appmenu-gtk2-module appmenu-gtk3-module plank sassc libglib2.0-dev-bin libxml2-utils dialog"
 missing=""
 for pkg in $packages; do
   case "$(dpkg-query -W -f='${Status}' "$pkg" 2>/dev/null)" in
@@ -124,11 +131,6 @@ sleep 1
 mkdir -p ~/.config/xfce4/xfconf/xfce-perchannel-xml/
 cp -p xfce4-panel/xfce4-panel.xml ~/.config/xfce4/xfconf/xfce-perchannel-xml/
 
-# set an xfconf property, creating it as a string when it does not exist yet
-xfconf_set() {
-  xfconf-query -c "$1" -p "$2" -s "$3" 2>/dev/null || \
-    xfconf-query -c "$1" -p "$2" --create -t string -s "$3"
-}
 
 #Applying theme (the GTK theme installs as "WhiteSur-Dark", capital D,
 #while the icon theme installs as "WhiteSur-dark" -- both are case-sensitive)
@@ -139,10 +141,27 @@ xfconf_set xfwm4 /general/theme "WhiteSur-Dark"
 xfconf_set xsettings /Net/IconThemeName "WhiteSur-dark"
 #Cursor theme
 xfconf_set xsettings /Gtk/CursorThemeName "WhiteSur-cursors"
-#Fonts: IBM Plex Mono everywhere (UI, monospace, window titles)
-xfconf_set xsettings /Gtk/FontName "IBM Plex Mono 10"
-xfconf_set xsettings /Gtk/MonospaceFontName "IBM Plex Mono 10"
-xfconf_set xfwm4 /general/title_font "IBM Plex Mono Bold 10"
+
+# --- OS wide font settings
+
+if fc-list | grep -qi "IBM Plex Sans JP"; then
+  xfconf_set xsettings /Gtk/FontName "IBM Plex Sans JP 10"
+else
+  echo "WARNING: font 'IBM Plex Sans JP' not found, skipping /Gtk/FontName"
+fi
+
+if fc-list | grep -qi "IBM Plex Mono"; then
+  xfconf_set xsettings /Gtk/MonospaceFontName "IBM Plex Mono 10"
+else
+  echo "WARNING: font 'IBM Plex Mono' not found, skipping /Gtk/MonospaceFontName"
+fi
+
+if fc-list | grep -qi "IBM Plex Sans JP SmBld"; then
+  xfconf_set xfwm4 /general/title_font "IBM Plex Sans JP SemiBold 10"
+else
+  echo "WARNING: font 'IBM Plex Sans JP SemiBold' not found, skipping /general/title_font"
+fi
+
 #Wallpaper (all monitors/workspaces)
 for prop in $(xfconf-query -c xfce4-desktop -l | grep last-image); do
   xfconf_set xfce4-desktop "$prop" "$HOME/Pictures/smallsur.png"
