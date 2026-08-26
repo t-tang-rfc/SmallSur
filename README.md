@@ -9,12 +9,7 @@ Small Sur is a theme that brings the visual aesthetics of macOS Big Sur to XFCE 
 - [Features](#features)
 - [Requirements](#requirements)
 - [Installation](#installation)
-  - [For Debian/Ubuntu](#for-debianubuntu)
-  - [For Arch/Manjaro](#for-archmanjaro)
-  - [For Fedora](#for-fedora)
 - [Usage](#usage)
-- [For Gnome Users](#for-gnome-users)
-- [Contribute](#contribute)
 - [Credits](#credits)
 
 ## Screenshots
@@ -30,22 +25,21 @@ Small Sur is a theme that brings the visual aesthetics of macOS Big Sur to XFCE 
 - BigSur icons and cursors.
 
 ## Requirements
-Before installing Small Sur, ensure that you have the following requirements are met:
-- XFCE desktop environment 
-- Install plank, ulancher, vala-panel-appmenu manually
-  (on Xubuntu, `install-xubuntu.sh` installs plank and the appmenu
-  plugin for you and starts the dock automatically on login)
+- Xubuntu 24.04 (or another Debian/Ubuntu-based distro with the XFCE desktop environment)
+
+`install-xubuntu.sh` installs and configures everything else for you: plank
+(dock), the appmenu panel plugin, mugshot, and the WhiteSur GTK/icon/cursor
+themes.
 
 ## Installation
-### For Xubuntu
 ```bash
-git clone https://github.com/jothi-prasath/SmallSur
+git clone https://github.com/t-tang-rfc/SmallSur
 ```
 ```bash
 cd SmallSur
 ```
 ```bash
-./install-xubunxu.sh
+./install-xubuntu.sh
 ```
 Note:
 - run it as your normal user (not with `sudo`) from a terminal inside your Xfce session --- the script uses `sudo` internally only to install packages.
@@ -58,12 +52,6 @@ Once the SmallSur theme is installed, you can customize your XFCE desktop enviro
 - Set your preferred SmallSur wallpaper from the provided collection.
 
 Feel free to explore and experiment with different configurations to personalize your desktop experience.
-
-## Contribute
-
-Contributions are welcome! If you would like to contribute to the Small Sur project, please follow these steps:
-- Test the script thoroughly to ensure it works as expected.
-- Add inline comments in the code where appropriate, especially for complex or non-obvious sections, to enhance code readability and maintainability.
 
 ## Credits 
 
