@@ -37,12 +37,13 @@ xfconf_set() {
 # Packages:
 # - xfce4-appmenu-plugin + appmenu-gtk*-module: global menu in the top panel
 # - plank: the macOS-like dock
+# - mugshot: user account editor
 # - sassc, libglib2.0-dev-bin, libxml2-utils, dialog: needed by WhiteSur-gtk-theme's installer
 # Note: xfce4-notifyd, xfce4-power-manager and xfce4-pulseaudio-plugin already
 # ship with Xubuntu, and xfce4-statusnotifier-plugin no longer exists on
 # Ubuntu >= 21.04 (the systray is built into xfce4-panel), so none of them are
 # installed here.
-packages="xfce4-appmenu-plugin appmenu-gtk2-module appmenu-gtk3-module plank sassc libglib2.0-dev-bin libxml2-utils dialog"
+packages="xfce4-appmenu-plugin appmenu-gtk2-module appmenu-gtk3-module plank mugshot sassc libglib2.0-dev-bin libxml2-utils dialog"
 missing=""
 for pkg in $packages; do
   case "$(dpkg-query -W -f='${Status}' "$pkg" 2>/dev/null)" in
