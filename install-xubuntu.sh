@@ -151,11 +151,11 @@ done
 # Restart the panel with the new layout
 nohup xfce4-panel >/dev/null 2>&1 &
 
-#Plank dock settings: Big Sur theme, auto-hide (reveals when the cursor
-#reaches the screen edge), only the pinned launchers above
+#　--- Plank dock settings
 plank_dock="net.launchpad.plank.dock.settings:/net/launchpad/plank/docks/dock1/"
 gsettings set "$plank_dock" theme "mcOS-BS-iMacM1-Black"
-gsettings set "$plank_dock" dock-items "['firefox.dockitem', 'xfce4-terminal.dockitem']"
+# @note: firefox.dockitem is the apt ver. of Firefox, firefox_firefox.dockitem is the snap ver. of Firefox, which is usually the one pre-installed on Xubuntu 24.04.
+gsettings set "$plank_dock" dock-items "['firefox_firefox.dockitem', 'xfce4-terminal.dockitem']"
 
 # (Re)start the dock
 pkill -x plank 2>/dev/null
