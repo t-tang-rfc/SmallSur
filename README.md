@@ -9,12 +9,7 @@ Small Sur is a theme that brings the visual aesthetics of macOS Big Sur to XFCE 
 - [Features](#features)
 - [Requirements](#requirements)
 - [Installation](#installation)
-  - [For Debian/Ubuntu](#for-debianubuntu)
-  - [For Arch/Manjaro](#for-archmanjaro)
-  - [For Fedora](#for-fedora)
 - [Usage](#usage)
-- [For Gnome Users](#for-gnome-users)
-- [Contribute](#contribute)
 - [Credits](#credits)
 
 ## Screenshots
@@ -30,43 +25,25 @@ Small Sur is a theme that brings the visual aesthetics of macOS Big Sur to XFCE 
 - BigSur icons and cursors.
 
 ## Requirements
-Before installing Small Sur, ensure that you have the following requirements are met:
-- XFCE desktop environment 
-- Install plank, ulancher, vala-panel-appmenu manually
+- Xubuntu 24.04 (or another Debian/Ubuntu-based distro with the XFCE desktop environment)
+
+`install-xubuntu.sh` installs and configures everything else for you: plank
+(dock), the appmenu panel plugin, mugshot, and the WhiteSur GTK/icon/cursor
+themes.
 
 ## Installation
-### For Debian/Ubuntu
 ```bash
-git clone https://github.com/jothi-prasath/SmallSur
+git clone https://github.com/t-tang-rfc/SmallSur
 ```
 ```bash
 cd SmallSur
 ```
 ```bash
-chmod +x install-debian.sh && sudo ./install-debian.sh
-``` 
-
-### For Arch/Manjaro
-```bash
-git clone https://github.com/jothi-prasath/SmallSur
+./install-xubuntu.sh
 ```
-```bash
-cd SmallSur
-```
-```bash
-chmod +x install-arch.sh && sudo ./install-arch.sh
-```
-### For Fedora
-```bash
-git clone https://github.com/jothi-prasath/SmallSur
-```
-```bash
-cd SmallSur
-```
-```bash
-chmod +x install-fedora.sh && sudo ./install-fedora.sh
-```
-Note: By default, the wallpapers are installed in the Pictures folder in your home directory.
+Note:
+- run it as your normal user (not with `sudo`) from a terminal inside your Xfce session --- the script uses `sudo` internally only to install packages.
+- By default, the wallpapers are installed in the Pictures folder in your home directory.
 
 ## Usage
 Once the SmallSur theme is installed, you can customize your XFCE desktop environment to match the style. Here are some recommended configurations:
@@ -76,25 +53,8 @@ Once the SmallSur theme is installed, you can customize your XFCE desktop enviro
 
 Feel free to explore and experiment with different configurations to personalize your desktop experience.
 
-## For Gnome Users
-If you are using the Gnome desktop environment, you can check out my other project, [Gnomintosh](https://github.com/jothi-prasath/gnomintosh). Gnomintosh provides a macOS-inspired theme specifically designed for Gnome. It includes themes, icons, and other customization elements to give your Gnome desktop a sleek and modern look.
-
-<p align="center"> <a href="https://github.com/jothi-prasath/gnomintosh">
-<img src="https://raw.githubusercontent.com/jothi-prasath/gnomintosh/master/images/1.png"/>
-<img src="https://raw.githubusercontent.com/jothi-prasath/gnomintosh/master/images/2.png"/>
-</a> </p>
-
-## Star
-
-![Stars](https://api.star-history.com/svg?repos=jothi-prasath/SmallSur&type=Date)
-
-## Contribute
-
-Contributions are welcome! If you would like to contribute to the Small Sur project, please follow these steps:
-- Test the script thoroughly to ensure it works as expected.
-- Add inline comments in the code where appropriate, especially for complex or non-obvious sections, to enhance code readability and maintainability.
-
 ## Credits 
+
 GTK Theme - https://github.com/vinceliuice/WhiteSur-gtk-theme
 
 Icon - https://github.com/vinceliuice/WhiteSur-icon-theme 
