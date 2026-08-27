@@ -1,16 +1,17 @@
 #!/bin/bash
 
-# SmallSur installer for Debian/Ubuntu (tested on Xubuntu 24.04)
+# @brief: SmallSur installer for Debian/Ubuntu (tested on Xubuntu 24.04)
 #
-# Run this as your normal desktop user, from inside your Xfce session:
-#   ./install-debian.sh
-# Do NOT run the whole script with sudo: the themes are installed per-user
-# and the settings are applied to your desktop session. The script calls
-# sudo internally only for installing packages.
+# @usage: Run this as your normal desktop user, from inside your Xfce session:
+#   ./install-xubuntu.sh
+#
+# @note: 
+# - Do NOT run the whole script with sudo --- the themes are installed per-user and the settings are applied to your desktop session.
+# - The script calls sudo internally only for installing packages.
 
 if [ "$(id -u)" -eq 0 ]; then
   echo "ERROR: do not run this script as root/with sudo."
-  echo "Run it as your normal user: ./install-debian.sh"
+  echo "Run it as your normal user: ./install-xubuntu.sh"
   echo "(it will use sudo internally only for 'apt-get install')"
   exit 1
 fi
@@ -34,16 +35,24 @@ xfconf_set() {
     xfconf-query -c "$1" -p "$2" --create -t string -s "$3"
 }
 
-# Packages:
-# - xfce4-appmenu-plugin + appmenu-gtk*-module: global menu in the top panel
-# - plank: the macOS-like dock
+# --- Install Packages
+
+# @details:
+# - xfce4-appmenu-plugin + appmenu-gtk*-module: Global Menu in the top panel (Menu Bar)
+# - plank-reloaded (successor of plank): the Dock
 # - mugshot: user account editor
 # - sassc, libglib2.0-dev-bin, libxml2-utils, dialog: needed by WhiteSur-gtk-theme's installer
-# Note: xfce4-notifyd, xfce4-power-manager and xfce4-pulseaudio-plugin already
-# ship with Xubuntu, and xfce4-statusnotifier-plugin no longer exists on
-# Ubuntu >= 21.04 (the systray is built into xfce4-panel), so none of them are
-# installed here.
-packages="xfce4-appmenu-plugin appmenu-gtk2-module appmenu-gtk3-module plank mugshot sassc libglib2.0-dev-bin libxml2-utils dialog"
+# @note: 
+# - xfce4-notifyd, xfce4-power-manager and xfce4-pulseaudio-plugin already ship with Xubuntu 24.04
+# - plank-reloaded need to be installed through the PPA
+
+# Add the PPA for plank-reloaded (zquestz)
+wget -q -O - https://zquestz.github.io/ppa/ubuntu/KEY.gpg | sudo gpg --dearmor -o /usr/share/keyrings/zquestz-archive-keyring.gpg
+echo "deb [signed-by=/usr/share/keyrings/zquestz-archive-keyring.gpg] https://zquestz.github.io/ppa/ubuntu ./" | sudo tee /etc/apt/sources.list.d/zquestz.list
+
+sudo apt-get update
+
+packages="xfce4-appmenu-plugin appmenu-gtk2-module appmenu-gtk3-module plank-reloaded mugshot sassc libglib2.0-dev-bin libxml2-utils dialog"
 missing=""
 for pkg in $packages; do
   case "$(dpkg-query -W -f='${Status}' "$pkg" 2>/dev/null)" in
@@ -86,23 +95,9 @@ cp -r "$workdir/WhiteSur-cursors/dist" ~/.local/share/icons/WhiteSur-cursors
 mkdir -p ~/Pictures/
 cp -r wallpaper/* ~/Pictures/
 
-#Plank themes
-mkdir -p ~/.local/share/plank/themes/
-cp -rp "$workdir/WhiteSur-gtk-theme/src/other/plank/"* ~/.local/share/plank/themes/
-cp -rp plank/mcOS-BS-iMacM1-Black/ ~/.local/share/plank/themes/
+# --- Configuration
 
-#Plank dock: pin Firefox and Terminal as the default launchers
-mkdir -p ~/.config/plank/dock1/launchers/
-cat > ~/.config/plank/dock1/launchers/firefox.dockitem <<EOF
-[PlankDockItemPreferences]
-Launcher=file:///usr/share/applications/firefox.desktop
-EOF
-cat > ~/.config/plank/dock1/launchers/xfce4-terminal.dockitem <<EOF
-[PlankDockItemPreferences]
-Launcher=file:///usr/share/applications/xfce4-terminal.desktop
-EOF
-
-#Start the dock automatically on login
+# Start the Dock automatically on login
 mkdir -p ~/.config/autostart/
 cat > ~/.config/autostart/plank.desktop <<EOF
 [Desktop Entry]
@@ -113,8 +108,7 @@ Exec=plank
 OnlyShowIn=XFCE;
 EOF
 
-# Everything below changes the current desktop session, so it needs a running
-# Xfce session (xfconfd). Skip it gracefully when run outside one.
+# @note: Everything below changes the current desktop session, so it needs a running Xfce session (xfconfd). Skip it gracefully when run outside one.
 if ! xfconf-query -c xsettings -l >/dev/null 2>&1; then
   echo "WARNING: no Xfce session found (xfconf not reachable)."
   echo "Themes and panel layout were installed but not applied."
@@ -132,7 +126,6 @@ sleep 1
 mkdir -p ~/.config/xfce4/xfconf/xfce-perchannel-xml/
 cp -p xfce4-panel/xfce4-panel.xml ~/.config/xfce4/xfconf/xfce-perchannel-xml/
 
-
 #Applying theme (the GTK theme installs as "WhiteSur-Dark", capital D,
 #while the icon theme installs as "WhiteSur-dark" -- both are case-sensitive)
 xfconf_set xsettings /Net/ThemeName "WhiteSur-Dark"
@@ -143,8 +136,7 @@ xfconf_set xsettings /Net/IconThemeName "WhiteSur-dark"
 #Cursor theme
 xfconf_set xsettings /Gtk/CursorThemeName "WhiteSur-cursors"
 
-# --- OS wide font settings
-
+# OS wide font setting
 if fc-list | grep -qi "IBM Plex Sans JP"; then
   xfconf_set xsettings /Gtk/FontName "IBM Plex Sans JP 10"
 else
@@ -163,7 +155,7 @@ else
   echo "WARNING: font 'IBM Plex Sans JP SemiBold' not found, skipping /general/title_font"
 fi
 
-#Wallpaper (all monitors/workspaces)
+# Wallpaper setting
 for prop in $(xfconf-query -c xfce4-desktop -l | grep last-image); do
   xfconf_set xfce4-desktop "$prop" "$HOME/Pictures/smallsur.png"
 done
@@ -171,16 +163,10 @@ done
 # Restart the panel with the new layout
 nohup xfce4-panel >/dev/null 2>&1 &
 
-#　--- Plank dock settings
-plank_dock="net.launchpad.plank.dock.settings:/net/launchpad/plank/docks/dock1/"
-gsettings set "$plank_dock" theme "mcOS-BS-iMacM1-Black"
-# @note: firefox.dockitem is the apt ver. of Firefox, firefox_firefox.dockitem is the snap ver. of Firefox, which is usually the one pre-installed on Xubuntu 24.04.
-gsettings set "$plank_dock" dock-items "['firefox_firefox.dockitem', 'xfce4-terminal.dockitem']"
-
 # (Re)start the dock
 pkill -x plank 2>/dev/null
 sleep 1
 nohup plank >/dev/null 2>&1 &
 
 echo "SmallSur installed"
-echo "Reboot your system"
+echo "Re-login to make the theme take effect"
